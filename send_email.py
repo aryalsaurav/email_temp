@@ -7,12 +7,12 @@ def get_html_file_path():
     if email_type == "class":
         file_path = '/Users/sauravaryal/Developer/projects/email_formats/class_email.html'
         subject = "Kakaaki Class Inforamtion"
-        from .class_email import get_template_data
+        from class_email import get_template_data
         template_data = get_template_data()
     elif email_type == "payment":
         file_path = '/Users/sauravaryal/Developer/projects/email_formats/payment_email.html'
         subject = "Kakaaki Payment Due"
-        from .payment_email import get_template_data
+        from payment_email import get_template_data
         template_data = get_template_data()
     
     return file_path,subject,template_data
@@ -36,34 +36,33 @@ receiver_email,template_data = datas
 def send_email(receiver_email, subject, html_template, template_data):
     # Replace placeholders in the HTML template with actual data
     body_html = html_template.format(**template_data)
-    
-    # Create message container - the correct MIME type is multipart/alternative.
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = subject
-    msg['From'] = 'info@kakaaki.com'
-    msg['To'] = receiver_email
+    for email in receiver_email:
+        # Create message container - the correct MIME type is multipart/alternative.
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = subject
+        msg['From'] = 'info@kakaaki.com'
+        msg['To'] = email
 
-    # Attach the HTML content to the email
-    msg.attach(MIMEText(body_html, 'html'))
+        # Attach the HTML content to the email
+        msg.attach(MIMEText(body_html, 'html'))
 
-    # Send the email using Outlook's SMTP server
-    try:
-        smtp_server = 'smtp-mail.outlook.com'
-        smtp_port = 587
+        # Send the email using Outlook's SMTP server
+        try:
+            smtp_server = 'smtp-mail.outlook.com'
+            smtp_port = 587
 
-        sender_email = 'info@kakaaki.com'
-        password = 'Test@123'
+            sender_email = 'info@kakaaki.com'
+            password = 'Test@123'
 
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(sender_email, password)
-        for email in receiver_email:
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(sender_email, password)
             server.sendmail(sender_email, email, msg.as_string())
-        server.quit()
+            server.quit()
 
-        print(f"Email sent successfully to {receiver_email}")
-    except Exception as e:
-        print(f"Failed to send email. Error: {str(e)}")
+            print(f"Email sent successfully to {email}")
+        except Exception as e:
+            print(f"Failed to send email. Error: {str(e)}")
 
 
 
