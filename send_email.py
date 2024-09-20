@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from decouple import config
 
 def get_html_file_path():
@@ -34,43 +35,44 @@ receiver_email,template_data = datas
 
 
 # Function to send email using Outlook
-def send_email(receiver_email, subject, html_template, template_data):
+def send_email(email, subject, html_template, template_data):
     # Replace placeholders in the HTML template with actual data
     body_html = html_template.format(**template_data)
-    for email in receiver_email:
-        # Create message container - the correct MIME type is multipart/alternative.
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = subject
-        msg['From'] = 'info@kakaaki.com'
-        msg['To'] = email
+    # Create message container - the correct MIME type is multipart/alternative.
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = subject
+    msg['From'] = 'info@kakaaki.com'
+    msg['To'] = email
 
-        # Attach the HTML content to the email
-        msg.attach(MIMEText(body_html, 'html'))
+    # Attach the HTML content to the email
+    msg.attach(MIMEText(body_html, 'html'))
 
-        # Send the email using Outlook's SMTP server
-        try:
-            smtp_server = 'smtp-mail.outlook.com'
-            smtp_port = 587
+    # Send the email using Outlook's SMTP server
+    try:
+        smtp_server = 'smtp-mail.outlook.com'
+        smtp_port = 587
 
-            sender_email = 'info@kakaaki.com'
-            password = config('EMAIL_PASSWORD')
+        sender_email = 'info@kakaaki.com'
+        password = config('EMAIL_PASSWORD')
 
-            server = smtplib.SMTP(smtp_server, smtp_port)
-            server.starttls()
-            server.login(sender_email, password)
-            server.sendmail(sender_email, email, msg.as_string())
-            server.quit()
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, email, msg.as_string())
+        server.quit()
 
-            print(f"Email sent successfully to {email}")
-        except Exception as e:
-            print(f"Failed to send email. Error: {str(e)}")
-
+        print(f"Email sent successfully to {email}")
+    except Exception as e:
+        print(f"Failed to send email. Error: {str(e)}")
 
 
 
 
+with ThreadPoolExecutor(max_workers=5) as executor:
+    futures = [executor.submit(send_email, email, subject, html_template, template_data) for email in receiver_email]
 
-send_email(receiver_email, subject, html_template, template_data)
+        
+        
 
 
 
