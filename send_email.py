@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from decouple import config
 
 def get_html_file_path():
     email_type = input("Enter the email type (class/payment): ")
@@ -52,7 +53,7 @@ def send_email(receiver_email, subject, html_template, template_data):
             smtp_port = 587
 
             sender_email = 'info@kakaaki.com'
-            password = 'Test@123'
+            password = config('EMAIL_PASSWORD')
 
             server = smtplib.SMTP(smtp_server, smtp_port)
             server.starttls()
