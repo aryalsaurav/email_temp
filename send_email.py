@@ -2,16 +2,35 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
-
-
-
+def get_html_file_path():
+    email_type = input("Enter the email type (class/payment): ")
+    if email_type == "class":
+        file_path = '/Users/sauravaryal/Developer/projects/email_formats/class_email.html'
+        subject = "Kakaaki Class Inforamtion"
+        from .class_email import get_template_data
+        template_data = get_template_data()
+    elif email_type == "payment":
+        file_path = '/Users/sauravaryal/Developer/projects/email_formats/payment_email.html'
+        subject = "Kakaaki Payment Due"
+        from .payment_email import get_template_data
+        template_data = get_template_data()
+    
+    return file_path,subject,template_data
 
 # Function to read the HTML template from a file
 def read_html_template(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         html_template = file.read()
     return html_template
+
+
+html_file_path,subject,datas = get_html_file_path()
+html_template = read_html_template(html_file_path)
+
+receiver_email,template_data = datas
+
+
+
 
 # Function to send email using Outlook
 def send_email(receiver_email, subject, html_template, template_data):
@@ -38,24 +57,13 @@ def send_email(receiver_email, subject, html_template, template_data):
         server = smtplib.SMTP(smtp_server, smtp_port)
         server.starttls()
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, msg.as_string())
+        for email in receiver_email:
+            server.sendmail(sender_email, email, msg.as_string())
         server.quit()
 
         print(f"Email sent successfully to {receiver_email}")
     except Exception as e:
         print(f"Failed to send email. Error: {str(e)}")
-
-# Example usage
-html_file_path = '/Users/sauravaryal/Developer/projects/email_formats/class_email.html'  # Path to your HTML template file
-html_template = read_html_template(html_file_path)
-subject = "Kakaaki Class Inforamtion"  # Email subject
-
-receiver_email, template_data = get_template_data()
-
-# Data to replace in the template
-
-send_email(receiver_email, subject, html_template, template_data)
-
 
 
 

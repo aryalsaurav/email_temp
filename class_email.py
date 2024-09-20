@@ -1,6 +1,6 @@
 def get_info():
     teacher_name = input("Enter the name of the teacher: ")
-    email = input("Enter the parent email address: ")
+    emails = input("Enter the parent email address: ")
     date = input("Enter the start date of the class: ")
     week_day = input("Enter the day of the week the class is on: ")
     class_time = input("Enter the time the class starts: ")
@@ -14,8 +14,9 @@ def get_info():
         "group_old":"https://kakaaki.com/old-payment",
         "private_old":"https://kakaaki.com/old-payment-one-to-one"
     }
-    
-    return teacher_name,email, date, week_day, class_time, timezone, payment_type[class_type.lower()]
+    if emails:
+        emails = emails.split(',')
+    return teacher_name,emails, date, week_day, class_time, timezone, payment_type[class_type.lower()]
 
 
 def get_teacher(teacher_name):

@@ -1,5 +1,5 @@
 def get_info():
-    email = input("Enter the parent email address: ")
+    emails = input("Enter the parent email address: ")
     class_type = input("Enter the type of class: ")
     payment_type = {
         'group': "https://kakaaki.com/payment",
@@ -7,7 +7,11 @@ def get_info():
         "group_old":"https://kakaaki.com/old-payment",
         "private_old":"https://kakaaki.com/old-payment-one-to-one"
     }
-    return email, payment_type[class_type.lower()]
+    if emails:
+        emails = emails.split(',')
+    else:
+        raise ValueError("Please enter the email address of the parent")
+    return emails, payment_type[class_type.lower()]
 
 
 
