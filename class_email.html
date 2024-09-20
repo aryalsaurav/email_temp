@@ -1,0 +1,81 @@
+<!-- email_template.html -->
+<html>
+<head>
+    <style>
+        body {{
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+        }}
+        .container {{
+          width: 100%;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 10px;
+          background-color: #f9f9f9;
+        }}
+        .header {{
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px;
+          text-align: center;
+          border-radius: 10px 10px 0 0;
+        }}
+        .content {{
+          padding: 20px;
+        }}
+        .footer {{
+          background-color: #f1f1f1;
+          padding: 10px;
+          text-align: center;
+          font-size: 12px;
+          border-radius: 0 0 10px 10px;
+        }}
+        .button {{
+          display: inline-block;
+          padding: 10px 20px;
+          margin: 10px 0;
+          background-color: #4CAF50;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+        }}
+      </style>
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+      <p>Dear Parent,</p>
+
+      <p>Thank you for signing up your child to the <strong>Kakaaki class</strong>. We are excited to be on this learning journey with your kid.</p>
+
+      <p>We have scheduled your child's weekly class to begin every <strong>{week_day}</strong>, starting from <strong>{start_date}</strong> at <strong>{class_time} {timezone}</strong>.</p>
+
+      <p>Some important information regarding the class is listed below:</p>
+
+      <ul>
+        <li><strong>Teacher:</strong> {teacher_name}</li>
+        <li><strong>Zoom Link:</strong> <a href="{zoom_link}">{zoom_link}</a> (please bookmark this link for every class)</li>
+        <li><strong>Google Classroom:</strong> Google Classroom information has been emailed to you. Our teachers use Google Classroom for homework and class communication. Students should upload their homework (pictures of homework) into Google Classroom as well. <em>(Please note that using Gmail and the Chrome browser works better with Google Classroom)</em></li>
+      </ul>
+
+      <h3>Payment Information</h3>
+      <p>We kindly request you to make the payment at your earliest convenience by visiting our payment portal: 
+        <a class="" href="{payment_link}">{payment_link}</a>
+      </p>
+
+      <p>Additionally, as a one-time cost, you can use this link to purchase books for the class: 
+        <a class="" href="https://shop.kakaaki.com/product/book/">https://shop.kakaaki.com/product/book/</a>
+      </p>
+
+      <p>If you have any questions or concerns, please feel free to reach out to us.</p>
+
+      <p>Regards,<br>Saurav</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 Kakaaki. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
