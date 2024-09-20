@@ -70,7 +70,7 @@ def send_email(receiver_email, subject, html_template, template_data):
 
 
 
-
+send_email(receiver_email, subject, html_template, template_data)
 
 
 
