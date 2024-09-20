@@ -1,2 +1,3 @@
 .env
 __pycache__/
+emails_list.txt
