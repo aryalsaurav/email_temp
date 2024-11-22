@@ -66,7 +66,6 @@ def get_teacher(teacher_name):
     return teacher_details[teacher_name.lower()]
 
 
-
 def get_template_data():
     teacher_name,email, date, week_day, class_time, timezone, payment = get_info()
     teacher = get_teacher(teacher_name)
